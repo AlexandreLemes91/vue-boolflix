@@ -60,11 +60,12 @@ export default {
         })
       .then(resp=>{
         this.seriesList = resp.data.results;
-      })
 
-      //UNIONE DEGLI ARRAY
+      //UNIONE DEGLI ARRAY <--- ricordarsi dell'assincronicità
       this.videoList = [...this.seriesList, ...this.filmsList];
       console.log(this.videoList);
+      })
+
     }
   }
 
