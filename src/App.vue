@@ -38,34 +38,34 @@ export default {
   methods: {
     //FUNZIONE PER CHIAMATA CUSTOM API TRAMITE $emit DA HEADER, POPOLERA' LA LISTA videoList
     getList(search){
-      //FILMS LIST
-      axios.get(this.filmsApiURL, 
-        {
-          params: {
-            api_key: this.key,
-            query: search,
-          }
-        })
-      .then(resp=>{
-        this.filmsList = resp.data.results;
-      }),
+      axios.all([
+        //FILMS LIST
+        axios.get(this.filmsApiURL, 
+          {
+            params: {
+              api_key: this.key,
+              query: search,
+            }
+          }),
 
-      //SERIES LIST
-      axios.get(this.seriesApiURL, 
-        {
-          params: {
-            api_key: this.key,
-            query: search,
-          }
-        })
-      .then(resp=>{
-        this.seriesList = resp.data.results;
+        //SERIES LIST
+        axios.get(this.seriesApiURL, 
+          {
+            params: {
+              api_key: this.key,
+              query: search,
+            }
+          })
+      ])
+      .then( responses =>{
+        console.log(responses)
+        this.filmsList = responses[0].data.results;
+        this.seriesList = responses[1].data.results;
 
-      //UNIONE DEGLI ARRAY <--- ricordarsi dell'assincronicità
-      this.videoList = [...this.seriesList, ...this.filmsList];
-      console.log(this.videoList);
+        //UNIONE DEGLI ARRAY <--- ricordarsi dell'assincronicità
+        this.videoList = [...this.seriesList, ...this.filmsList];
+        console.log(this.videoList);
       })
-
     }
   }
 
