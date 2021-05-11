@@ -1,8 +1,8 @@
 <template>
     <header>
         <form>
-            <input type="text">
-            <button>Search</button>
+            <input type="text" v-model="searching">
+            <button @click.prevent="$emit( 'search', searching )">Search</button>
         </form>
     </header>
 </template>
@@ -10,6 +10,12 @@
 <script>
 export default {
     name: 'Header',
+
+    data(){
+        return{
+            searching: '',
+        }
+    }
 }
 </script>
 

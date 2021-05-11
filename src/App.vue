@@ -1,23 +1,75 @@
 <template>
   <div id="app">
-    <Header/>
+    <Header @search="getList" />
 
-    <Content/>
+    <Content :videoList="videoList"/>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import Header from '@/components/Header'
 import Content from '@/components/Content'
 
 export default {
   name: 'App',
+
   components: {
     Header,
     Content,
+  },
 
+  data(){
+    return{
+      // INFO PER CHIAMATA API
+      filmsApiURL: 'https://api.themoviedb.org/3/search/movie',
+      seriesApiURL: 'https://api.themoviedb.org/3/search/tv',
+      key: '24bf6c82b0fc8353485988e42545f9c0',
+
+      //ARRAY DI FILM E SERIE TV
+      filmsList: [],
+      seriesList: [],
+
+      //ARRAY CHE CONTERRA' SIA FILM CHE SERIE TV
+      videoList: [],
+    }
+  },
+
+  methods: {
+    //FUNZIONE PER CHIAMATA CUSTOM API TRAMITE $emit DA HEADER, POPOLERA' LA LISTA videoList
+    getList(search){
+      //FILMS LIST
+      axios.get(this.filmsApiURL, 
+        {
+          params: {
+            api_key: this.key,
+            query: search,
+          }
+        })
+      .then(resp=>{
+        this.filmsList = resp.data.results;
+      }),
+
+      //SERIES LIST
+      axios.get(this.seriesApiURL, 
+        {
+          params: {
+            api_key: this.key,
+            query: search,
+          }
+        })
+      .then(resp=>{
+        this.seriesList = resp.data.results;
+      })
+
+      //UNIONE DEGLI ARRAY
+      this.videoList = [...this.seriesList, ...this.filmsList];
+      console.log(this.videoList);
+    }
   }
+
 }
+
 </script>
 
 <style lang="scss">

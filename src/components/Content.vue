@@ -1,43 +1,36 @@
 <template>
     <main>
         <ul v-for="video in videoList" :key="video.id">
-            <li>Title: {{video.title}}</li>
-            <li>Original Title: {{video.original_title}}</li>
-            <li>Language: {{video.original_language}}</li>
+            <li>Title: {{video.title}}{{video.name}}</li> <!-- SI PUO FARE MEGLIO??? ANZICHE' QUESTA DOPPIA MUSTACHE -->
+            <li>Original Title: {{video.original_title}}{{video.original_name}}</li>
+            <li>Language: <img :src="video.original_language == 'en' ? flags.en : flags.it" alt=""></li> <!-- tramite V-IF METTERE ALTRE LINGUE? OPPURE TRAMITE UNO SWITCH? -->
             <li>{{video.vote_average}}</li>
         </ul>
     </main>
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
     name: 'Content',
+    props: ['videoList'],
 
     data(){
         return{
-            apiURL: 'https://api.themoviedb.org/3/search/movie?api_key=24bf6c82b0fc8353485988e42545f9c0&query=v for vendetta',
-            videoList: [],
-        }
-    },
-
-    created(){
-        this.getList();
-    },
-
-    methods: {
-        getList(){
-            axios.get(this.apiURL)
-            .then(resp=>{
-                this.videoList = resp.data.results;
-                console.log(this.videoList);
-            })
+            flags: {
+                en: require('@/assets/img/flags/en.png'),
+                it: require('@/assets/img/flags/it.png'),
+            }
         }
     }
 }
 </script>
 
-<style>
+<style scoped lang='scss'>
 
+li{
+    img{
+        max-width: 30px;
+    }
+}
 </style>
