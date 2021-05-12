@@ -37,25 +37,19 @@ export default {
   methods: {
     //FUNZIONE PER CHIAMATA CUSTOM API TRAMITE $emit DA HEADER, POPOLERA' LA LISTA videoList
     getList(search){
+      const apiParams = {
+        api_key: this.key,
+        query: search,
+        language: 'it-IT'
+      };
+
       if( search !== ''){
         axios.all([
           //FILMS LIST
-          axios.get(this.apiURL + 'movie', 
-            {
-              params: {
-                api_key: this.key,
-                query: search,
-              }
-            }),
+          axios.get(this.apiURL + 'movie', {params: apiParams}),
   
           //SERIES LIST
-          axios.get(this.apiURL + 'tv', 
-            {
-              params: {
-                api_key: this.key,
-                query: search,
-              }
-            })
+          axios.get(this.apiURL + 'tv', {params: apiParams})
         ])
         .then( responses =>{
           console.log(responses)
