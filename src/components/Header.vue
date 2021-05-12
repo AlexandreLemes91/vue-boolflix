@@ -1,7 +1,7 @@
 <template>
     <header>
         <form>
-            <input type="text" v-model="searching">
+            <input type="text" v-model.trim="searching">
             <button @click.prevent="$emit( 'search', searching )">Search</button>
         </form>
     </header>
