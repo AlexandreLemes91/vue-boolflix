@@ -1,90 +1,94 @@
 <template>
     <main>
 
-        <!-- QUESTO DIVENTERA UN COMPONENTE -->
-        <div class="video" v-for="video in videoList" :key="video.id">
+        <Hero/>
 
-            <!-- IMG VIDEO -->
-            <img v-if="video.poster_path !== null" :src="'https://image.tmdb.org/t/p/w342' + video.poster_path " alt="">
-            <div v-else class="imgSubstitute"><h2>{{video.title ? video.title : video.name}}</h2></div>
+        <div class="top10Movie">
+            <h2>Top 10</h2>
+            <div class="row">
+                <div
+                    v-for="(movie,index) in top10Movie"
+                    :key="movie.id"
+                    class="card-container"
+                    @click="hero(movie)"
+                    :hero="">
 
-            <!-- LIST INFO -->
-            <ul>
-                <li>Title: {{video.title ? video.title : video.name}}</li>
-                <li>Original Title: {{video.original_title ? video.original_title : video.original_name}}</li>
-                <li>Language: 
-                    <img v-if="flags(video.original_language)"
-                        :src='require(`@/assets/img/flags/${video.original_language}.png`)'
-                        :alt="video.original_language">
-                    <span v-else>{{video.original_language}}</span>
-                </li>
-                <li>
-                    <i v-for="(star, index) in getStars(video.vote_average)" :key="index + video.id" class="fullStar fas fa-star"></i>
-                    <i v-for="(star, index) in 5 - getStars(video.vote_average)" :key="'emptyStar' + index + video.id" class="emptyStar fas fa-star"></i>
-                </li>
-            </ul>
+                    <Card :info="movie"/>
+
+                    <div class="index">{{index + 1}}</div>
+                </div>
+            </div>
         </div>
+
     </main>
 </template>
 
 <script>
+import Hero from '@/components/Hero'
+import Card from '@/components/Card'
 
 export default {
     name: 'Content',
-    props: ['videoList'],
+    props: ['videoList', 'seriesList', 'filmsList', 'top10Movie'],
 
-    data(){
+    components: {
+        Hero,
+        Card,
+    },
+    
+    dat(){
         return{
-            flagsArray: [
-                'it',
-                'en',
-            ]
+            activeMovie: [],
         }
     },
 
     methods: {
-        flags(videoLanguage){
-            return this.flagsArray.includes(videoLanguage);
-            /* let img = '';
-            switch(videoLanguage){
-                case 'en':
-                    img = require('@/assets/img/flags/en.png');
-                    break;
-                case 'it':
-                    img = require('@/assets/img/flags/it.png');
-                    break;
-            }
-            return img; */
+        hero(video){
+            console.log(video);
+            this.
         },
-
-        getStars(vote){
-            return Math.round(vote / 2);
-        }
     }
 }
 </script>
 
 <style scoped lang='scss'>
+@import '@/components/scss/var.scss';
 
-.imgSubstitute{
-    width: 342px;
-    height: 513px;
-    background-color: #999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+main{
+    color: white;
+    
+    .top10Movie{
+        .card-container{
+            position: relative;
+            margin: 10px;
+            margin-right: 50px;
+            transition: margin-right 0.5s;
+            border: 2px solid transparent;
+            &:hover .index{
+                right: -70%;
+            }
+            &:hover{
+                margin-right: 100px;
+                border: 2px solid white
+            }
+
+            .index{
+                z-index: -1;
+                position: absolute;
+                bottom: -25px;
+                right: -50%;
+                height: 100%;
+                width: 100%;
+                font-size: 300px;
+                letter-spacing: -80px;
+                line-height: 0px;
+                display: flex;
+                align-items: center;
+                transition: 0.5s;
+            }
+        }
+        
+    }
 }
 
-li{
-    img{
-        max-width: 30px;
-    }
-
-    .fullStar{
-        color: orange;
-    }
-    .emptyStar{
-        color: #999;
-    }
-}
 </style>
