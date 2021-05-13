@@ -1,5 +1,6 @@
 <template>
     <section>
+        <div class="layover"></div>
         <div class="infos">
             <div class="title">
                 <h1>{{forHero.title ? forHero.title : forHero.name}}</h1>
@@ -24,10 +25,8 @@
             <div class="overview">{{forHero.overview}}</div>
         </div>
         <div class="img-container">
-            <div class="layover1"></div>
-            <div class="layover2"></div>
-            <div class="layover3"></div>
-            <div class="layover4"></div>
+            <div class="layover-img"></div>
+            <div class="layover-img"></div>
             <img :src="'https://image.tmdb.org/t/p/w780' + forHero.backdrop_path" alt="">
         </div>
     </section>
@@ -68,9 +67,18 @@ section{
     position: relative;
     min-height: 400px;
     width: 100vw;
+
+    .layover{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-image: linear-gradient(125deg, rgba($blackFlix,1), rgba(white, 0.05), rgba($blackFlix,0.15),transparent, transparent);
+        z-index: -1;
+    }
+
     .infos{
         width: 60%;
-        margin-top: 20px;
+        margin-top: 50px;
 
         .title{
             max-width: 90%;
@@ -108,15 +116,15 @@ section{
     .img-container{
         position: absolute;
         right: 0;
-        z-index: -1;
+        z-index: -2;
         overflow: hidden;
         height: 439px;
 
-        .layover1{
+        .layover-img{
             height: 100%;
             width: 100%;
             position: absolute;
-            background-image: linear-gradient();
+            background-image: linear-gradient(to right, $blackFlix , rgba($blackFlix, 0));
         }
         img{
             height: 120%;

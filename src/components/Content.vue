@@ -1,22 +1,33 @@
 <template>
     <main>
+        
+        <Hero
+            v-if="searchActive === false"
+            :forHero="clicked ? activeMovie : top10Movie[0]"/>
 
-        <Hero/>
-
-        <div class="top10Movie">
+        <div class="top10Movie" v-if="searchActive === false">
             <h2>Top 10</h2>
             <div class="row">
                 <div
+                    class="card-container"
                     v-for="(movie,index) in top10Movie"
                     :key="movie.id"
-                    class="card-container"
-                    @click="hero(movie)"
-                    :hero="">
+                    @click="hero(movie)">
 
                     <Card :info="movie"/>
 
                     <div class="index">{{index + 1}}</div>
                 </div>
+            </div>
+        </div>
+
+        <div v-else class="search">
+            <div
+                class="card-container"
+                v-for="movie in videoList"
+                :key="movie.id">
+
+                <Card :info="movie"/>
             </div>
         </div>
 
@@ -29,23 +40,25 @@ import Card from '@/components/Card'
 
 export default {
     name: 'Content',
-    props: ['videoList', 'seriesList', 'filmsList', 'top10Movie'],
+    props: ['videoList', 'seriesList', 'filmsList', 'top10Movie', 'searchActive'],
 
     components: {
         Hero,
         Card,
     },
-    
-    dat(){
+
+    data(){
         return{
-            activeMovie: [],
+            activeMovie: this.top10Movie[0],
+            clicked: false,
         }
     },
 
     methods: {
         hero(video){
-            console.log(video);
-            this.
+            this.activeMovie = video;
+            this.clicked = true
+            console.log(this.activeMovie);
         },
     }
 }
@@ -58,6 +71,12 @@ main{
     color: white;
     
     .top10Movie{
+        overflow-x: auto;
+        height: 390px;
+        margin-top: 30px;
+        h2{
+            margin-left: 10px;
+        }
         .card-container{
             position: relative;
             margin: 10px;
@@ -88,6 +107,17 @@ main{
             }
         }
         
+    }
+
+    .search{
+        display: flex;
+        max-width: 100vw;
+        flex-wrap: wrap;
+
+        .card-container{
+            margin: 5px;
+            position: relative;
+        }
     }
 }
 
