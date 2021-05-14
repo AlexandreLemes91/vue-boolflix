@@ -1,5 +1,6 @@
 <template>
     <main>
+        <div class="layover"></div>
         
         <Hero
             v-if="searchActive === false"

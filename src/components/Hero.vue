@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="layover"></div>
+        
         <div class="infos">
             <div class="title">
                 <h1>{{forHero.title ? forHero.title : forHero.name}}</h1>
